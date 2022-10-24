@@ -61,7 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.provider :virtualbox do |vb|
         vb.gui = false
         vb.name = host['name']
-        vb.customize ["modifyvm", :id, "--memory", host['mem'], "--cpus", host['cpus'], "--hwvirtex", "on","--groups", "/DevOps-Lab",
+        vb.customize ["modifyvm", :id, "--memory", host['mem'], "--cpus", host['cpus'], "--hwvirtex", "on","--groups", "/DevSecOps-Lab",
         "--natdnshostresolver1", "on", "--cableconnected1", "on"]
       end      
     end
