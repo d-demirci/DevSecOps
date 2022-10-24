@@ -24,10 +24,15 @@
     path: /home/archerysec/app
     state: directory
 
+# git checkout specific version 
+# https://stackoverflow.com/questions/33450240/clone-a-specific-branch-from-git-through-ansible-playbook
+# the commit was 6f13e7d1803ac0b7dbbbb785c8e70e5db623992d when this archerysec included in devops lab
+# version 1.9
 - name: Git checkout
   git:
     repo: 'https://github.com/archerysec/archerysec.git'
     dest: "{{ install_root }}"
+    version: 6f13e7d1803ac0b7dbbbb785c8e70e5db623992d
     update: no
 
 
