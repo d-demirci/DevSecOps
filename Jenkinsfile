@@ -1,13 +1,13 @@
 pipeline {
    agent any
    environment {
-     DOCKER_REGISTRY = "registry.devops:5000"
+     DOCKER_REGISTRY = "registry.devsecops:5000"
      SECURE_LOG_LEVEL = "debug"
-     LOCAL_MACHINE_IP_ADDRESS="jenkins.devops"
-     ARCHERYSEC_HOST ="http://archerysec.devops" // ArcherySec URL
+     LOCAL_MACHINE_IP_ADDRESS="jenkins.devsecops"
+     ARCHERYSEC_HOST ="http://archerysec.devsecops" // ArcherySec URL
      // These secrets should be use through Jenkins Secrets in production implementation
      ARCHERYSEC_USER = "admin" // archerysec username
-     ARCHERYSEC_PASS = "devops@123A" // archerysec password
+     ARCHERYSEC_PASS = "devsecops@123A" // archerysec password
 
    }
    stages {
@@ -72,22 +72,22 @@ pipeline {
       stage('Staging Setup') {
          steps {
             sh '''
-               docker build  --no-cache --build-arg STAGE=staging -t "devops/webapp:staging" .
-               docker tag "devops/webapp:staging" "${DOCKER_REGISTRY}/devops/webapp:staging"
-               docker push "${DOCKER_REGISTRY}/devops/webapp:staging"
-               docker rmi "${DOCKER_REGISTRY}/devops/webapp:staging"
-               docker rmi "devops/webapp:staging"
+               docker build  --no-cache --build-arg STAGE=staging -t "devsecops/webapp:staging" .
+               docker tag "devsecops/webapp:staging" "${DOCKER_REGISTRY}/devsecops/webapp:staging"
+               docker push "${DOCKER_REGISTRY}/devsecops/webapp:staging"
+               docker rmi "${DOCKER_REGISTRY}/devsecops/webapp:staging"
+               docker rmi "devsecops/webapp:staging"
             '''
             script {
                      def remote = [:]
                      remote.name = 'staging'
                      remote.user = 'vagrant'
                      remote.allowAnyHosts = true
-                     remote.host = 'staging.devops'
+                     remote.host = 'staging.devsecops'
                      remote.identityFile = '~/.ssh/staging.key'
                      sshCommand remote: remote, command: "docker stop webapp || true"
                      sshCommand remote: remote, command: "docker rm webapp || true"
-                     sshCommand remote: remote, command: "docker rmi ${DOCKER_REGISTRY}/devops/webapp:staging || true"
+                     sshCommand remote: remote, command: "docker rmi ${DOCKER_REGISTRY}/devsecops/webapp:staging || true"
                   }
          }
       }
@@ -98,9 +98,9 @@ pipeline {
                 remote.name = 'staging'
                 remote.user = 'vagrant'
                 remote.allowAnyHosts = true
-                remote.host = 'staging.devops'
+                remote.host = 'staging.devsecops'
                 remote.identityFile = '~/.ssh/staging.key'
-                sshCommand remote: remote, command: "docker run -d -p 80:5000 --name webapp ${DOCKER_REGISTRY}/devops/webapp:staging"
+                sshCommand remote: remote, command: "docker run -d -p 80:5000 --name webapp ${DOCKER_REGISTRY}/devsecops/webapp:staging"
             }
          }
       }
@@ -122,7 +122,7 @@ pipeline {
                   docker run \
                      --volume $(pwd)/wrk:/output:rw \
                      --volume $(pwd)/wrk:/zap/wrk:rw \
-                     registry.gitlab.com/gitlab-org/security-products/dast:latest /analyze -t http://staging.devops -x report.xml
+                     registry.gitlab.com/gitlab-org/security-products/dast:latest /analyze -t http://staging.devsecops -x report.xml
 
                   DATE=`date +%Y-%m-%d`
 
@@ -143,22 +143,22 @@ pipeline {
       stage('Production Setup') {
          steps {
             sh '''
-               docker build  --no-cache --build-arg STAGE=prod -t "devops/webapp:prod" .
-               docker tag "devops/webapp:prod" "${DOCKER_REGISTRY}/devops/webapp:prod"
-               docker push "${DOCKER_REGISTRY}/devops/webapp:prod"
-               docker rmi "${DOCKER_REGISTRY}/devops/webapp:prod"
-               docker rmi "devops/webapp:prod"
+               docker build  --no-cache --build-arg STAGE=prod -t "devsecops/webapp:prod" .
+               docker tag "devsecops/webapp:prod" "${DOCKER_REGISTRY}/devsecops/webapp:prod"
+               docker push "${DOCKER_REGISTRY}/devsecops/webapp:prod"
+               docker rmi "${DOCKER_REGISTRY}/devsecops/webapp:prod"
+               docker rmi "devsecops/webapp:prod"
             '''
             script {
                      def remote = [:]
                      remote.name = 'production'
                      remote.user = 'vagrant'
                      remote.allowAnyHosts = true
-                     remote.host = 'production.devops'
+                     remote.host = 'production.devsecops'
                      remote.identityFile = '~/.ssh/production.key'
                      sshCommand remote: remote, command: "docker stop webapp || true"
                      sshCommand remote: remote, command: "docker rm webapp || true"
-                     sshCommand remote: remote, command: "docker rmi ${DOCKER_REGISTRY}/devops/webapp:prod || true"
+                     sshCommand remote: remote, command: "docker rmi ${DOCKER_REGISTRY}/devsecops/webapp:prod || true"
                   }
          }
       }
@@ -173,7 +173,7 @@ pipeline {
                   --volume "$PWD":/tmp/app \
                   -e CI_PROJECT_DIR=/tmp/app \
                   -e CLAIR_DB_CONNECTION_STRING="postgresql://postgres:password@${LOCAL_MACHINE_IP_ADDRESS}:5432/postgres?sslmode=disable&statement_timeout=60000" \
-                  -e CI_APPLICATION_REPOSITORY=${DOCKER_REGISTRY}/devops/webapp \
+                  -e CI_APPLICATION_REPOSITORY=${DOCKER_REGISTRY}/devsecops/webapp \
                   -e CI_APPLICATION_TAG=prod \
                   -e REGISTRY_INSECURE=true \
                   registry.gitlab.com/gitlab-org/security-products/analyzers/klar
@@ -210,9 +210,9 @@ pipeline {
                      remote.name = 'production'
                      remote.user = 'vagrant'
                      remote.allowAnyHosts = true
-                     remote.host = 'production.devops'
+                     remote.host = 'production.devsecops'
                      remote.identityFile = '~/.ssh/production.key'
-                     sshCommand remote: remote, command: "docker run -d -p 80:5000 --name webapp ${DOCKER_REGISTRY}/devops/webapp:prod"
+                     sshCommand remote: remote, command: "docker run -d -p 80:5000 --name webapp ${DOCKER_REGISTRY}/devsecops/webapp:prod"
                   }
          }
       }                       

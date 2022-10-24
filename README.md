@@ -21,10 +21,10 @@ Follow [this][post] post to setup the lab
 
 ### ArcherySec as Vulnerability Management Tool
 
-You could visit http://archerysec.devops/ in a browser, and you'll see the ArcherySec login page. Log in with the default credentials:
+You could visit http://archerysec.devsecops/ in a browser, and you'll see the ArcherySec login page. Log in with the default credentials:
 
 - Username: admin
-- Password: devops@123A
+- Password: devsecops@123A
 
 #### ArcherySec Dashboard 
 
@@ -39,9 +39,9 @@ You could visit http://archerysec.devops/ in a browser, and you'll see the Arche
 ### Docker based Web Application
 https://github.com/npatta01/web-deep-learning-classifier
 
-[salecha]: <https://github.com/salecharohit/devops>
+[salecha]: <https://github.com/salecharohit/devsecops>
 [depscan]: <https://docs.gitlab.com/ee/user/application_security/dependency_scanning/index.html>
 [sast]: <https://docs.gitlab.com/ee/user/application_security/sast/index.html>
 [dast]: <https://docs.gitlab.com/ee/user/application_security/dast/>
 [container]: <https://docs.gitlab.com/ee/user/application_security/container_scanning/>
-[post]: <https://www.rohitsalecha.com/project/practical_devops/>
+[post]: <https://www.rohitsalecha.com/project/practical_devsecops/>
