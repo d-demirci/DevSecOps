@@ -37,7 +37,7 @@
         jenkins_http_port: 8080
         jenkins_plugins_install_dependencies: yes
         jenkins_package_state: present
-        jenkins_java_options: "-Djenkins.install.runSetupWizard=false -Xms512m -Xmx1024m"
+        jenkins_java_options: "-Djenkins.install.runSetupWizard=false -Xms4096m -Xmx4096m"
         jenkins_plugins:
           - git # Installs Credentials and SSH credentials plugins
           - ssh
