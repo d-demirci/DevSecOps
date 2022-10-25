@@ -63,9 +63,13 @@
     path: "{{ venv_dir }}"
     state: directory
 
+- name: Write old requirements file
+  template: src=requirements_old.txt dest={{ app_dir }}/requirements_old.txt
+
+
 - name: Install dependencies
   pip:
-    requirements: "{{ app_dir }}/requirements_setup.txt"
+    requirements: "{{ app_dir }}/requirements_old.txt"
     virtualenv: "{{ venv_dir }}"
     virtualenv_python: python3.6
 
