@@ -47,7 +47,7 @@ pipeline {
                sast: {
                   // echo 'SAST'
                   sh '''
-                    docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:latest /app/bin/run /code
+                    docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:13-0-stable /app/bin/run /code
 
                      # create project in archerysec
 
