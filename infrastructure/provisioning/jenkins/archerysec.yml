@@ -1,5 +1,6 @@
+# version of archerysec-cli
 - name: Install archerysec cli
-  command: pip install archerysec-cli
+  command: pip install archerysec-cli==3.1.2
   become: yes
 
 - name: Move archerysec-cli binary to bin folder
