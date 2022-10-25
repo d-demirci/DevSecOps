@@ -25,7 +25,7 @@ pipeline {
             parallel(
                dependency: {
                   sh '''
-                     docker run --env SECURE_LOG_LEVEL=${SECURE_LOG_LEVEL} -v "$PWD:/code" -v /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:latest /code
+                     docker run --env SECURE_LOG_LEVEL=${SECURE_LOG_LEVEL} -v "$PWD"/src:/code -v /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:latest /code
 
                      # create project in archerysec
 
@@ -47,7 +47,7 @@ pipeline {
                sast: {
                   // echo 'SAST'
                   sh '''
-                    docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:13-0-stable /app/bin/run /code
+                    docker run --volume "$PWD"/src:/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:13-0-stable /app/bin/run /code
 
                      # create project in archerysec
 
